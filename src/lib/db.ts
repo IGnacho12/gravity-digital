@@ -2,13 +2,12 @@ import { neon } from "@neondatabase/serverless"
 
 export function getSql() {
   const url = import.meta.env.DATABASE_URL
-  if (!url) return null
+  if (!url) throw new Error("DATABASE_URL is not configured")
   return neon(url)
 }
 
 export async function ensureLeadsTable() {
   const sql = getSql()
-  if (!sql) return null
 
   await sql`
     CREATE TABLE IF NOT EXISTS leads (
